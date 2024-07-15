@@ -24,9 +24,11 @@ def markdown_to_blocks(markdown):
     return blocks
 
 def block_to_block_type(block):
+    #Heading
     if block[0] == '#':
         return block_type_heading
     
+    #Code
     if block[:3] == "```":
         if block[-3:] == "```": 
             return block_type_code
@@ -47,7 +49,7 @@ def block_to_block_type(block):
     #Unordered List
     is_unordered_list = True
     for split in splits:
-        if split[0] != '*' and split[0] != '-':
+        if split[:2] != "* " and split[:2] != "- ":
             is_unordered_list = False
             break
     if is_unordered_list:

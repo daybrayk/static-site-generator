@@ -32,7 +32,7 @@ def  split_nodes_delimiter(old_nodes, delimiter, text_type):
 
         texts = node.text.split(delimiter)
         if len(texts) % 2 == 0:
-            raise ValueError(f"Missing closing {delimiter}")
+            raise ValueError(f"Missing closing {delimiter} in text:\n {node.text}")
 
         for i in range(0, len(texts)):
             if texts[i] == "":
@@ -78,7 +78,7 @@ def split_nodes_image(old_nodes):
     return new_nodes
 
 def extract_markdown_links(text):
-    links = re.findall(r"[^!]\[(.*?)\]\((.*?)\)", text)
+    links = re.findall(r"[^!]?\[(.*?)\]\((.*?)\)", text)
     return links
 
 def split_nodes_link(old_nodes):
@@ -91,11 +91,10 @@ def split_nodes_link(old_nodes):
     
         text = node.text
         links = extract_markdown_links(node.text)
-    
+         
         if len(links) == 0:
             new_nodes.append(node)
             continue
-    
         for i in range(0, len(links)):
             link = links[i]
             splits = text.split(f"[{link[0]}]({link[1]})", 1)
